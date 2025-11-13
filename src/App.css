@@ -1,26 +1,51 @@
-.phone-container {
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    background-color: #CCCCCC;
-}
+import React, { useState } from 'react';
+import './App.css'; // 需创建对应 CSS 文件
 
-.phone-container .phone-content {
-    display: flex;
-    flex-direction: column;
-    width: 375px;
-    height: 678px;
-    background-color: #FFFFFF;
-    border-radius: 10px;
-    color: #111111;
-    overflow: hidden;
-    overflow-y: auto;
-}
+const App: React.FC = () => {
+  const [btnIndex, setBtnIndex] = useState(1);
+  const [activeBtns, setActiveBtns] = useState<number[]>([]);
 
-.phone-container .phone-content::-webkit-scrollbar {
-    width: 0;
-    display: none;
-}
+  // 新增按钮点击事件
+  const handleAddBtn = () => {
+    setBtnIndex(prev => prev + 1);
+  };
+
+  // 列表按钮激活状态切换
+  const toggleActive = (index: number) => {
+    setActiveBtns(prev => 
+      prev.includes(index) 
+        ? prev.filter(item => item !== index) 
+        : [...prev, index]
+    );
+  };
+
+  // 生成列表按钮（排除 Add Button 本身）
+  const renderListBtns = () => {
+    const btns = [];
+    for (let i = 1; i < btnIndex; i++) {
+      btns.push(
+        <button
+          key={i}
+          className={`list-btn ${activeBtns.includes(i) ? 'active' : ''}`}
+          onClick={() => toggleActive(i)}
+        >
+          Button {i}
+        </button>
+      );
+    }
+    return btns;
+  };
+
+  return (
+    <div className="app-container">
+      <div className="btn-container">
+        {renderListBtns()}
+        <button className="add-btn" onClick={handleAddBtn}>
+          Add Button
+        </button>
+      </div>
+    </div>
+  );
+};
+
+export default App;
