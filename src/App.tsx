@@ -1,34 +1,89 @@
-import z from "zod";
-import "./App.css";
-import { Text, View } from "./components";
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>招聘试题</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: linear-gradient(180deg, #7B2FFD 0%, #3B0899 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-family: Arial, sans-serif;
+        }
+        p{
+            padding: 20px;
+            color: #fff;
+        }
+        .btn-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            width: 80%;
+            max-width: 400px;
+        }
+        .list-btn, .add-btn {
+            width: 100%;
+            height: 120px;
+            padding: 20px;
+            border: 2px solid #fff;
+            border-radius: 8px;
+            background: transparent;
+            color: #fff;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .list-btn.active {
+            background-color: #4CAF50;
+            border-color: #4CAF50;
+        }
+        .add-btn::after {
+            content: "+";
+            font-size: 24px;
+            margin-top: 5px;
+        }
+        .add-btn:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <p>Button list</p>
+    <div class="btn-container" id="btnContainer">
+        <button class="add-btn" id="addButton">Add Button</button>
+    </div>
 
-/**
-  
-  ## 基础技术要求
-  ### TypeScript基础要求：在项目中，我们要用 zod 这个库来处理 TypeScript 相关的逻辑，同时使用 React 的 Hooks 来控制按钮的开关状态。
-  ### 描述：这样做的目的是让我们的代码编写方式更贴近项目实际要求。
-  ## 组件创建要求
-  ### 标签要求：所有自定义的组件，组件名称的第一个字母都要大写，并且需要重新创建这些组件。
-  ### 描述：这样做的目的是让代码编写风格更接近 React Native（简称 RN）的代码规范。
-  ## 文本渲染要求
-  ### 文本渲染要求：页面上显示的所有文本内容，都要用 Text 标签包裹起来。
-  ### 描述：这样做的目的是让文本的渲染方式更符合 React Native 的代码编写习惯。
-  
-  > 对现有组件，您可以随意修改，但是要确保修改后的组件符合上述规则
+    <script>
+        const btnContainer = document.getElementById('btnContainer');
+        const addButton = document.getElementById('addButton');
+        let btnIndex = 1;
 
-  > 完成后请于 src/example-video.mp4 示例视频 核对最终效果
+        addButton.addEventListener('click', () => {
+            const newBtn = document.createElement('button');
+            newBtn.className = 'list-btn';
+            newBtn.textContent = `Button ${btnIndex}`;
+            btnIndex++;
 
- */
+            newBtn.addEventListener('click', () => {
+                newBtn.classList.toggle('active');
+            });
 
-export const SwitchStatus = {
-  OPEN: "open",
-  CLOSE: "close",
-} as const;
-
-export default function App() {
-  return (
-    <View className="phone-container">
-      <View className="phone-content"></View>
-    </View>
-  );
-}
+            btnContainer.insertBefore(newBtn, addButton);
+        });
+    </script>
+</body>
+</html>
